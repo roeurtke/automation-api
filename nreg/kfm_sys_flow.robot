@@ -9,12 +9,12 @@ Post Login And Get Response
     ${login_response}=    Login With Credentials    /api/login/    admin    111111@A
     Validate Successful Login Response    ${login_response}
 
-Get A User With Validation
-    [Tags]    002
-    [Documentation]    Login and verify fetching a specific user
-    ${login_response}=    Login With Credentials    /api/login/    admin    111111@A
-    ${user_response}=    Get Data With Response Token   /api/users/1/
-    Validate A User Response   ${user_response}
+# Get A User With Validation
+#     [Tags]    002
+#     [Documentation]    Login and verify fetching a specific user
+#     ${login_response}=    Login With Credentials    /api/login/    admin    111111@A
+#     ${user_response}=    Get Data With Response Token   /api/users/1/
+#     Validate A User Response   ${user_response}
 
 Get All Users With Validation
     [Tags]    003

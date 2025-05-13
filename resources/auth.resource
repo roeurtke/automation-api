@@ -47,14 +47,13 @@ Validate All Users Response
     [Documentation]    Validate the response for all users
     [Arguments]    ${response}
     Should Be Equal As Numbers    ${response.status_code}    200
-    ${users}=    Set Variable    ${response.json()}[results]
+    ${users}=    Set Variable    ${response.json()}
     Should Be True    ${users}    !=[]
 
     FOR    ${user}    IN    @{users}
-        # Should Be True    ${user["id"]} > 0
-        # Should Be Equal    ${user["username"]}    ${user["username"]}
-        # Should Be Equal    ${user["email"]}    ${user["email"]}
-        # Should Be Equal    ${user["role"]["name"]}    ${user["role"]["name"]}
-        # Should Be Equal    ${user["role"]["id"]}    ${user["role"]["id"]}
-        Dictionaries Should Be Equal    ${user["username"]}    ${user["username"]}
+        Log    ${user["id"]}
+        Should Be True    ${user["id"]} > 0
+        Should Be Equal    ${user["username"]}    ${user["username"]}
+        Should Be Equal    ${user["email"]}    ${user["email"]}
+        Should Be Equal    ${user["role"]["name"]}    ${user["role"]["name"]}
     END
