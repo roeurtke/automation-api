@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.12.4 on win32)" generated="20250509 15:28:04.067" rpa="false" schemaversion="4">
+<suite id="s1" name="Kfm Sys Flow" source="D:\Kesei-doc\Workspace\Automation\test-auth\kfm_sys\kfm_sys_flow.robot">
+<test id="s1-t1" name="Post Login And Get Response" line="6">
+<kw name="Login With Credentials" library="auth">
+<var>${login_response}</var>
+<arg>/api/login/</arg>
+<arg>admin</arg>
+<arg>111111@A</arg>
+<doc>Log in to the application and store the access token</doc>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>${loginSession}</arg>
+<arg>${apiBaseUrl}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20250509 15:28:04.594" level="INFO">Creating Session using : alias=login_session, url=http://127.0.0.1:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20250509 15:28:04.594" endtime="20250509 15:28:04.594"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250509 15:28:04.595" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20250509 15:28:04.595" endtime="20250509 15:28:04.595"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${data}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250509 15:28:04.595" level="INFO">${data} = {'username': 'admin', 'password': '111111@A'}</msg>
+<status status="PASS" starttime="20250509 15:28:04.595" endtime="20250509 15:28:04.595"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${loginSession}</arg>
+<arg>${endpoint}</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20250509 15:28:05.477" level="INFO">POST Request : url=http://127.0.0.1:8000/api/login/ 
+ path_url=/api/login/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '45'} 
+ body=b'{"username": "admin", "password": "111111@A"}' 
+ </msg>
+<msg timestamp="20250509 15:28:05.477" level="INFO">POST Response : url=http://127.0.0.1:8000/api/login/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 09 May 2025 08:28:05 GMT', 'Server': 'WSGIServer/0.2 CPython/3.12.4', 'Content-Type': 'application/json', 'Vary': 'Accept, origin', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '533', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0Njg2NTY4NSwiaWF0IjoxNzQ2Nzc5Mjg1LCJqdGkiOiI0ZjUwNzNiMmNiZDA0MTdmYjUwMzdiNjI0NjUyM2NmMCIsInVzZXJfaWQiOjF9.O4qd18Sz7TwC3FpZwjXs_MJk4fLi-8tXkobMekZczQM","access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2Nzc5NTg1LCJpYXQiOjE3NDY3NzkyODUsImp0aSI6Ijk3NTdiZjQ5ZGIxMzRmZTg5NTBmYjM1NTI1YzUzYzUzIiwidXNlcl9pZCI6MX0.G_cgbILBK7fPy5YA9hXI29zvn4zz0riTuAFc4dtLY-Q","username":"admin","message":"Login successfully"} 
+ </msg>
+<msg timestamp="20250509 15:28:05.478" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:04.595" endtime="20250509 15:28:05.478"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" starttime="20250509 15:28:05.478" endtime="20250509 15:28:05.478"/>
+</return>
+<msg timestamp="20250509 15:28:05.478" level="INFO">${login_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:04.594" endtime="20250509 15:28:05.478"/>
+</kw>
+<kw name="Validate Successful Login Response" library="auth">
+<arg>${login_response}</arg>
+<doc>Validate the login response and extract the access token</doc>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20250509 15:28:05.480" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:05.479" endtime="20250509 15:28:05.480"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${body}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250509 15:28:05.482" level="INFO">${body} = {'refresh': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0Njg2NTY4NSwiaWF0IjoxNzQ2Nzc5Mjg1LCJqdGkiOiI0ZjUwNzNiMmNiZDA0MTdmYjUwMzdiNjI0NjUyM2NmMCIsInVzZXJfaWQiOjF9.O...</msg>
+<status status="PASS" starttime="20250509 15:28:05.480" endtime="20250509 15:28:05.482"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${body}</arg>
+<arg>refresh</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20250509 15:28:05.482" endtime="20250509 15:28:05.482"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${body}</arg>
+<arg>access</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20250509 15:28:05.482" endtime="20250509 15:28:05.482"/>
+</kw>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${body["refresh"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20250509 15:28:05.483" level="INFO">Length is 229</msg>
+<status status="PASS" starttime="20250509 15:28:05.482" endtime="20250509 15:28:05.483"/>
+</kw>
+<kw name="Should Not Be Empty" library="BuiltIn">
+<arg>${body["access"]}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<msg timestamp="20250509 15:28:05.484" level="INFO">Length is 228</msg>
+<status status="PASS" starttime="20250509 15:28:05.483" endtime="20250509 15:28:05.484"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${body["username"]}</arg>
+<arg>admin</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20250509 15:28:05.484" endtime="20250509 15:28:05.485"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${body["message"]}</arg>
+<arg>Login successfully</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20250509 15:28:05.485" endtime="20250509 15:28:05.485"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${ACCESS_TOKEN}</arg>
+<arg>${body["access"]}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20250509 15:28:05.486" level="INFO">${ACCESS_TOKEN} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2Nzc5NTg1LCJpYXQiOjE3NDY3NzkyODUsImp0aSI6Ijk3NTdiZjQ5ZGIxMzRmZTg5NTBmYjM1NTI1YzUzYzUzIiwidXNlcl9pZCI6MX0.G_cgbILBK7fPy5Y...</msg>
+<status status="PASS" starttime="20250509 15:28:05.485" endtime="20250509 15:28:05.486"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:05.479" endtime="20250509 15:28:05.486"/>
+</kw>
+<doc>Login and verify fetching user information</doc>
+<tag>001</tag>
+<status status="PASS" starttime="20250509 15:28:04.593" endtime="20250509 15:28:05.487"/>
+</test>
+<test id="s1-t2" name="Get All Users With Validation" line="19">
+<kw name="Login With Credentials" library="auth">
+<var>${login_response}</var>
+<arg>/api/login/</arg>
+<arg>admin</arg>
+<arg>111111@A</arg>
+<doc>Log in to the application and store the access token</doc>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>${loginSession}</arg>
+<arg>${apiBaseUrl}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20250509 15:28:05.489" level="INFO">Creating Session using : alias=login_session, url=http://127.0.0.1:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20250509 15:28:05.489" endtime="20250509 15:28:05.489"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250509 15:28:05.490" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20250509 15:28:05.489" endtime="20250509 15:28:05.490"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${data}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250509 15:28:05.490" level="INFO">${data} = {'username': 'admin', 'password': '111111@A'}</msg>
+<status status="PASS" starttime="20250509 15:28:05.490" endtime="20250509 15:28:05.490"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${loginSession}</arg>
+<arg>${endpoint}</arg>
+<arg>json=${data}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20250509 15:28:06.335" level="INFO">POST Request : url=http://127.0.0.1:8000/api/login/ 
+ path_url=/api/login/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '45'} 
+ body=b'{"username": "admin", "password": "111111@A"}' 
+ </msg>
+<msg timestamp="20250509 15:28:06.335" level="INFO">POST Response : url=http://127.0.0.1:8000/api/login/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 09 May 2025 08:28:06 GMT', 'Server': 'WSGIServer/0.2 CPython/3.12.4', 'Content-Type': 'application/json', 'Vary': 'Accept, origin', 'Allow': 'POST, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '533', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body={"refresh":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0Njg2NTY4NiwiaWF0IjoxNzQ2Nzc5Mjg2LCJqdGkiOiJmZmY5MjIzOTc4MmE0NDBjYTViZGZjYWY5OGZiYzVjMSIsInVzZXJfaWQiOjF9.vVWm6Deuue2uMu78SsGg9NbI8-QyHOpFwRT8SJParmk","access":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2Nzc5NTg2LCJpYXQiOjE3NDY3NzkyODYsImp0aSI6IjQzNDIwNmM2NzFiZDQ4OWFhNGZhMWI3NDdjNjhhMGYxIiwidXNlcl9pZCI6MX0.6QKIcffUpohuzeFfxgd94ri9y0Yr3XtKx6hWg66nup8","username":"admin","message":"Login successfully"} 
+ </msg>
+<msg timestamp="20250509 15:28:06.335" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:05.490" endtime="20250509 15:28:06.335"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" starttime="20250509 15:28:06.335" endtime="20250509 15:28:06.335"/>
+</return>
+<msg timestamp="20250509 15:28:06.336" level="INFO">${login_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:05.489" endtime="20250509 15:28:06.336"/>
+</kw>
+<kw name="Get Data With Response Token" library="auth">
+<var>${user_response}</var>
+<arg>/api/users/</arg>
+<doc>Use the stored access token to fetch user information</doc>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>${userSession}</arg>
+<arg>${apiBaseUrl}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20250509 15:28:06.337" level="INFO">Creating Session using : alias=user_session, url=http://127.0.0.1:8000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20250509 15:28:06.337" endtime="20250509 15:28:06.337"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${auth_headers}</var>
+<arg>Authorization=Bearer ${ACCESS_TOKEN}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20250509 15:28:06.338" level="INFO">${auth_headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2Nzc5NTg1LCJpYXQiOjE3NDY3NzkyODUsImp0aSI6Ijk3NTdiZjQ5ZGIxMzRmZTg5NTBmYjM1NTI1YzUzYzUzIiwidXNlc...</msg>
+<status status="PASS" starttime="20250509 15:28:06.337" endtime="20250509 15:28:06.338"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${userSession}</arg>
+<arg>${endpoint}</arg>
+<arg>headers=${auth_headers}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20250509 15:28:06.416" level="INFO">GET Request : url=http://127.0.0.1:8000/api/users/ 
+ path_url=/api/users/ 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2Nzc5NTg1LCJpYXQiOjE3NDY3NzkyODUsImp0aSI6Ijk3NTdiZjQ5ZGIxMzRmZTg5NTBmYjM1NTI1YzUzYzUzIiwidXNlcl9pZCI6MX0.G_cgbILBK7fPy5YA9hXI29zvn4zz0riTuAFc4dtLY-Q'} 
+ body=None 
+ </msg>
+<msg timestamp="20250509 15:28:06.416" level="INFO">GET Response : url=http://127.0.0.1:8000/api/users/ 
+ status=200, reason=OK 
+ headers={'Date': 'Fri, 09 May 2025 08:28:06 GMT', 'Server': 'WSGIServer/0.2 CPython/3.12.4', 'Content-Type': 'application/json', 'Vary': 'Accept, origin', 'Allow': 'GET, POST, HEAD, OPTIONS', 'X-Frame-Options': 'DENY', 'Content-Length': '6502', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'Cross-Origin-Opener-Policy': 'same-origin'} 
+ body=[{"id":26,"username":"test023","email":"test023@gmail.com","first_name":"test023","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:57:38.405436Z","updated_at":"2025-03-22T15:57:39.193061Z"},{"id":22,"username":"test018","email":"test018@gmail.com","first_name":"test018","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:16:20.705228Z","updated_at":"2025-03-22T16:00:27.128236Z"},{"id":12,"username":"test08","email":"test08@gmail.com","first_name":"test08","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-21T17:43:37.206180Z","updated_at":"2025-03-21T17:43:37.991684Z"},{"id":3,"username":"test002","email":"test0021@gmail.com","first_name":"test002","last_name":"User","spending_limit":10.0,"role":{"name":"Normal"},"created_at":"2025-03-20T18:27:25.219095Z","updated_at":"2025-03-21T14:07:44.309045Z"},{"id":2,"username":"test001","email":"test001@gmail.com","first_name":"test001","last_name":"User","spending_limit":10.0,"role":{"name":"Normal"},"created_at":"2025-03-20T18:27:25.219095Z","updated_at":"2025-03-21T14:08:16.161192Z"},{"id":1,"username":"admin","email":"admin@gmail.com","first_name":"admin","last_name":"User","spending_limit":10.0,"role":{"name":"Admin"},"created_at":"2025-03-20T18:27:25.219095Z","updated_at":"2025-03-21T14:09:25.626862Z"},{"id":5,"username":"test005","email":"test005@gmail.com","first_name":"test005","last_name":"User","spending_limit":0.0,"role":{"name":"Test"},"created_at":"2025-03-20T18:27:25.219095Z","updated_at":"2025-03-21T14:31:55.996440Z"},{"id":4,"username":"test004","email":"test004@gmail.com","first_name":"test004","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-20T18:27:25.219095Z","updated_at":"2025-03-21T17:31:09.462535Z"},{"id":16,"username":"test012","email":"test012@gmail.com","first_name":"test012","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T10:19:20.720334Z","updated_at":"2025-03-22T10:19:21.496312Z"},{"id":17,"username":"test013","email":"test013@gmail.com","first_name":"test013","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T10:20:45.137491Z","updated_at":"2025-03-22T10:20:45.923479Z"},{"id":20,"username":"test016","email":"test016@gmail.com","first_name":"test016","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T14:55:50.646341Z","updated_at":"2025-03-22T14:55:51.426437Z"},{"id":19,"username":"test015","email":"test015@example.com","first_name":"test015","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T14:54:00.398085Z","updated_at":"2025-03-22T15:08:08.243915Z"},{"id":13,"username":"test009","email":"test009@gmail.com","first_name":"test009","last_name":"User","spending_limit":10.0,"role":{"name":"Normal"},"created_at":"2025-03-22T09:59:35.680325Z","updated_at":"2025-03-22T15:08:46.056539Z"},{"id":14,"username":"test010","email":"test010@gmail.com","first_name":"test010","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T10:01:37.099168Z","updated_at":"2025-03-22T15:09:32.696931Z"},{"id":18,"username":"test014","email":"test014@gmail.com","first_name":"test014","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T14:49:39.489680Z","updated_at":"2025-03-22T15:09:51.387451Z"},{"id":15,"username":"test011","email":"test011@gmail.com","first_name":"test011","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T10:15:14.055779Z","updated_at":"2025-03-22T15:10:35.666847Z"},{"id":21,"username":"test017","email":"test017@gmail.com","first_name":"test017","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:11:13.150843Z","updated_at":"2025-03-22T15:11:13.932235Z"},{"id":23,"username":"test019","email":"test019@gmail.com","first_name":"","last_name":"","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:25:03.333245Z","updated_at":"2025-03-22T15:25:04.138918Z"},{"id":24,"username":"test020","email":"test020@gmail.com","first_name":"test020","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:39:42.644317Z","updated_at":"2025-03-22T15:39:43.432842Z"},{"id":25,"username":"test021","email":"test021@gmail.com","first_name":"test021","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-22T15:42:50.393015Z","updated_at":"2025-03-22T15:42:51.208004Z"},{"id":10,"username":"test006","email":"test06@gmail.com","first_name":"test006","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-21T17:38:51.165575Z","updated_at":"2025-03-22T15:45:32.701316Z"},{"id":11,"username":"test007","email":"test07@gmail.com","first_name":"test007","last_name":"User","spending_limit":0.0,"role":{"name":"Normal"},"created_at":"2025-03-21T17:42:17.836720Z","updated_at":"2025-03-22T15:46:46.053725Z"},{"id":27,"username":"test024","email":"test024@gmail.com","first_name":"test024","last_name":"admin","spending_limit":10.0,"role":{"name":"Admin"},"created_at":"2025-04-01T11:12:37.888387Z","updated_at":"2025-04-01T11:12:38.762580Z"},{"id":28,"username":"test025","email":"test025@gmail.com","first_name":"test025","last_name":"","spending_limit":10.0,"role":{"name":"Normal"},"created_at":"2025-04-02T06:19:34.280175Z","updated_at":"2025-04-07T11:35:47.908514Z"},{"id":32,"username":"test026","email":"test026@gmail.com","first_name":"test026","last_name":"User","spending_limit":10.0,"role":{"name":"Test"},"created_at":"2025-04-11T04:46:46.330726Z","updated_at":"2025-04-11T04:47:14.052457Z"},{"id":33,"username":"test027","email":"test027@gmail.com","first_name":"test027","last_name":"User","spending_limit":11.0,"role":{"name":"Normal"},"created_at":"2025-04-11T06:04:17.388871Z","updated_at":"2025-04-11T06:04:18.181849Z"},{"id":34,"username":"test028","email":"test028@gmail.com","first_name":"test028","last_name":"User","spending_limit":11.0,"role":{"name":"Normal"},"created_at":"2025-04-11T06:04:40.086127Z","updated_at":"2025-04-11T06:04:40.911404Z"},{"id":35,"username":"test029","email":"test029@gmail.com","first_name":"test029","last_name":"User","spending_limit":11.0,"role":{"name":"Normal"},"created_at":"2025-04-11T06:05:11.696281Z","updated_at":"2025-04-11T06:05:12.468280Z"}] 
+ </msg>
+<msg timestamp="20250509 15:28:06.417" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:06.338" endtime="20250509 15:28:06.417"/>
+</kw>
+<return>
+<value>${response}</value>
+<status status="PASS" starttime="20250509 15:28:06.417" endtime="20250509 15:28:06.417"/>
+</return>
+<msg timestamp="20250509 15:28:06.417" level="INFO">${user_response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:06.336" endtime="20250509 15:28:06.417"/>
+</kw>
+<kw name="Validate All Users Response" library="auth">
+<arg>${user_response}</arg>
+<doc>Validate the response for all users</doc>
+<kw name="Should Be Equal As Numbers" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<msg timestamp="20250509 15:28:06.419" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20250509 15:28:06.418" endtime="20250509 15:28:06.419"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${users}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250509 15:28:06.420" level="INFO">${users} = [{'id': 26, 'username': 'test023', 'email': 'test023@gmail.com', 'first_name': 'test023', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:57:38.405...</msg>
+<status status="PASS" starttime="20250509 15:28:06.419" endtime="20250509 15:28:06.420"/>
+</kw>
+<kw name="Should Be True" library="BuiltIn">
+<arg>${users}</arg>
+<arg>!=[]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" starttime="20250509 15:28:06.420" endtime="20250509 15:28:06.420"/>
+</kw>
+<for flavor="IN">
+<var>${user}</var>
+<value>@{users}</value>
+<iter>
+<var name="${user}">{'id': 26, 'username': 'test023', 'email': 'test023@gmail.com', 'first_name': 'test023', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:57:38.4054...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.421" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.421" endtime="20250509 15:28:06.421"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.420" endtime="20250509 15:28:06.421"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 22, 'username': 'test018', 'email': 'test018@gmail.com', 'first_name': 'test018', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:16:20.7052...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.422" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.421" endtime="20250509 15:28:06.422"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.421" endtime="20250509 15:28:06.422"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 12, 'username': 'test08', 'email': 'test08@gmail.com', 'first_name': 'test08', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-21T17:43:37.206180Z...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.423" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.422" endtime="20250509 15:28:06.423"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.422" endtime="20250509 15:28:06.423"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 3, 'username': 'test002', 'email': 'test0021@gmail.com', 'first_name': 'test002', 'last_name': 'User', 'spending_limit': 10.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-20T18:27:25.219...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.423" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.423" endtime="20250509 15:28:06.423"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.423" endtime="20250509 15:28:06.423"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 2, 'username': 'test001', 'email': 'test001@gmail.com', 'first_name': 'test001', 'last_name': 'User', 'spending_limit': 10.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-20T18:27:25.2190...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.424" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.424" endtime="20250509 15:28:06.424"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.424" endtime="20250509 15:28:06.424"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 1, 'username': 'admin', 'email': 'admin@gmail.com', 'first_name': 'admin', 'last_name': 'User', 'spending_limit': 10.0, 'role': {'name': 'Admin'}, 'created_at': '2025-03-20T18:27:25.219095Z', '...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.425" level="INFO">Admin</msg>
+<status status="PASS" starttime="20250509 15:28:06.424" endtime="20250509 15:28:06.425"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.424" endtime="20250509 15:28:06.425"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 5, 'username': 'test005', 'email': 'test005@gmail.com', 'first_name': 'test005', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Test'}, 'created_at': '2025-03-20T18:27:25.219095Z...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.426" level="INFO">Test</msg>
+<status status="PASS" starttime="20250509 15:28:06.425" endtime="20250509 15:28:06.426"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.425" endtime="20250509 15:28:06.426"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 4, 'username': 'test004', 'email': 'test004@gmail.com', 'first_name': 'test004', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-20T18:27:25.21909...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.426" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.426" endtime="20250509 15:28:06.426"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.426" endtime="20250509 15:28:06.426"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 16, 'username': 'test012', 'email': 'test012@gmail.com', 'first_name': 'test012', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T10:19:20.7203...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.427" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.427" endtime="20250509 15:28:06.427"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.426" endtime="20250509 15:28:06.427"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 17, 'username': 'test013', 'email': 'test013@gmail.com', 'first_name': 'test013', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T10:20:45.1374...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.428" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.427" endtime="20250509 15:28:06.428"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.427" endtime="20250509 15:28:06.428"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 20, 'username': 'test016', 'email': 'test016@gmail.com', 'first_name': 'test016', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T14:55:50.6463...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.429" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.428" endtime="20250509 15:28:06.429"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.428" endtime="20250509 15:28:06.429"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 19, 'username': 'test015', 'email': 'test015@example.com', 'first_name': 'test015', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T14:54:00.39...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.429" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.429" endtime="20250509 15:28:06.429"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.429" endtime="20250509 15:28:06.430"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 13, 'username': 'test009', 'email': 'test009@gmail.com', 'first_name': 'test009', 'last_name': 'User', 'spending_limit': 10.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T09:59:35.680...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.430" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.430" endtime="20250509 15:28:06.430"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.430" endtime="20250509 15:28:06.430"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 14, 'username': 'test010', 'email': 'test010@gmail.com', 'first_name': 'test010', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T10:01:37.0991...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.431" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.431" endtime="20250509 15:28:06.431"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.431" endtime="20250509 15:28:06.431"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 18, 'username': 'test014', 'email': 'test014@gmail.com', 'first_name': 'test014', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T14:49:39.4896...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.432" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.431" endtime="20250509 15:28:06.432"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.431" endtime="20250509 15:28:06.432"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 15, 'username': 'test011', 'email': 'test011@gmail.com', 'first_name': 'test011', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T10:15:14.0557...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.433" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.432" endtime="20250509 15:28:06.433"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.432" endtime="20250509 15:28:06.433"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 21, 'username': 'test017', 'email': 'test017@gmail.com', 'first_name': 'test017', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:11:13.1508...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.433" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.433" endtime="20250509 15:28:06.433"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.433" endtime="20250509 15:28:06.433"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 23, 'username': 'test019', 'email': 'test019@gmail.com', 'first_name': '', 'last_name': '', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:25:03.333245Z', 'upda...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.434" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.433" endtime="20250509 15:28:06.434"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.433" endtime="20250509 15:28:06.434"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 24, 'username': 'test020', 'email': 'test020@gmail.com', 'first_name': 'test020', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:39:42.6443...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.435" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.434" endtime="20250509 15:28:06.435"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.434" endtime="20250509 15:28:06.435"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 25, 'username': 'test021', 'email': 'test021@gmail.com', 'first_name': 'test021', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-22T15:42:50.3930...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.435" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.435" endtime="20250509 15:28:06.435"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.435" endtime="20250509 15:28:06.435"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 10, 'username': 'test006', 'email': 'test06@gmail.com', 'first_name': 'test006', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-21T17:38:51.16557...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.436" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.436" endtime="20250509 15:28:06.436"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.435" endtime="20250509 15:28:06.436"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 11, 'username': 'test007', 'email': 'test07@gmail.com', 'first_name': 'test007', 'last_name': 'User', 'spending_limit': 0.0, 'role': {'name': 'Normal'}, 'created_at': '2025-03-21T17:42:17.83672...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.437" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.436" endtime="20250509 15:28:06.437"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.436" endtime="20250509 15:28:06.437"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 27, 'username': 'test024', 'email': 'test024@gmail.com', 'first_name': 'test024', 'last_name': 'admin', 'spending_limit': 10.0, 'role': {'name': 'Admin'}, 'created_at': '2025-04-01T11:12:37.888...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.438" level="INFO">Admin</msg>
+<status status="PASS" starttime="20250509 15:28:06.437" endtime="20250509 15:28:06.438"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.437" endtime="20250509 15:28:06.438"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 28, 'username': 'test025', 'email': 'test025@gmail.com', 'first_name': 'test025', 'last_name': '', 'spending_limit': 10.0, 'role': {'name': 'Normal'}, 'created_at': '2025-04-02T06:19:34.280175Z...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.438" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.438" endtime="20250509 15:28:06.438"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.438" endtime="20250509 15:28:06.438"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 32, 'username': 'test026', 'email': 'test026@gmail.com', 'first_name': 'test026', 'last_name': 'User', 'spending_limit': 10.0, 'role': {'name': 'Test'}, 'created_at': '2025-04-11T04:46:46.33072...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.439" level="INFO">Test</msg>
+<status status="PASS" starttime="20250509 15:28:06.438" endtime="20250509 15:28:06.439"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.438" endtime="20250509 15:28:06.439"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 33, 'username': 'test027', 'email': 'test027@gmail.com', 'first_name': 'test027', 'last_name': 'User', 'spending_limit': 11.0, 'role': {'name': 'Normal'}, 'created_at': '2025-04-11T06:04:17.388...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.440" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.439" endtime="20250509 15:28:06.440"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.439" endtime="20250509 15:28:06.440"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 34, 'username': 'test028', 'email': 'test028@gmail.com', 'first_name': 'test028', 'last_name': 'User', 'spending_limit': 11.0, 'role': {'name': 'Normal'}, 'created_at': '2025-04-11T06:04:40.086...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.441" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.440" endtime="20250509 15:28:06.441"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.440" endtime="20250509 15:28:06.441"/>
+</iter>
+<iter>
+<var name="${user}">{'id': 35, 'username': 'test029', 'email': 'test029@gmail.com', 'first_name': 'test029', 'last_name': 'User', 'spending_limit': 11.0, 'role': {'name': 'Normal'}, 'created_at': '2025-04-11T06:05:11.696...</var>
+<kw name="Log" library="BuiltIn">
+<arg>${user["role"]["name"]}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20250509 15:28:06.441" level="INFO">Normal</msg>
+<status status="PASS" starttime="20250509 15:28:06.441" endtime="20250509 15:28:06.441"/>
+</kw>
+<status status="PASS" starttime="20250509 15:28:06.441" endtime="20250509 15:28:06.441"/>
+</iter>
+<status status="PASS" starttime="20250509 15:28:06.420" endtime="20250509 15:28:06.441"/>
+</for>
+<status status="PASS" starttime="20250509 15:28:06.418" endtime="20250509 15:28:06.441"/>
+</kw>
+<doc>Login and verify fetching all users</doc>
+<tag>003</tag>
+<status status="PASS" starttime="20250509 15:28:05.488" endtime="20250509 15:28:06.442"/>
+</test>
+<status status="PASS" starttime="20250509 15:28:04.069" endtime="20250509 15:28:06.444"/>
+</suite>
+<statistics>
+<total>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">001</stat>
+<stat pass="1" fail="0" skip="0">003</stat>
+</tag>
+<suite>
+<stat pass="2" fail="0" skip="0" id="s1" name="Kfm Sys Flow">Kfm Sys Flow</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
