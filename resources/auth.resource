@@ -1,5 +1,6 @@
 *** Settings ***
 Library    RequestsLibrary
+Library    custom_keywords.py
 Resource    global_variable.resource
 
 *** Keywords ***
@@ -44,18 +45,22 @@ Validate A User Response
 
 Validate All Users Response
     [Documentation]    Validate the response for all users
-    [Arguments]    ${response}
+    [Arguments]    ${response}    ${min_count}=1    ${max_count}=100
     Should Be Equal As Numbers    ${response.status_code}    200
     ${users}=    Set Variable    ${response.json()}
     Should Be True    ${users}    !=[]
+    Validate User List    ${users}    ${min_count}    ${max_count}
+    # ${length}=    Get Length    ${users}
+    # Should Be True    ${length} >= ${min_count}    List should have at least ${min_count} users
+    # Should Be True    ${length} <= ${max_count}    List should not exceed ${max_count} users
 
-    FOR    ${user}    IN    @{users}
-        Should Contain    ${user}    id
-        Should Contain    ${user}    username
-        Should Contain    ${user}    email
-        Should Contain    ${user}    role
-        Should Be True    ${user["id"]} > 0
-        Should Not Be Empty    ${user["username"]}
-        Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format
-        Should Not Be Empty    ${user["role"]["name"]}
-    END
+    # FOR    ${user}    IN    @{users}
+    #     Should Contain    ${user}    id
+    #     Should Contain    ${user}    username
+    #     Should Contain    ${user}    email
+    #     Should Contain    ${user}    role
+    #     Should Be True    ${user["id"]} > 0
+    #     Should Not Be Empty    ${user["username"]}
+    #     Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format
+    #     Should Not Be Empty    ${user["role"]["name"]}
+    # END

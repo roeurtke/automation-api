@@ -21,4 +21,4 @@ Get All Users With Validation
     [Documentation]    Login and verify fetching all users
     ${login_response}=    Login With Credentials    /api/login/    admin    111111@A
     ${user_response}=    Get Data With Response Token   /api/users/ 
-    Validate All Users Response    ${user_response}
+    Validate All Users Response    ${user_response}    1    100
