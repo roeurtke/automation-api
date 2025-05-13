@@ -1,6 +1,5 @@
 *** Settings ***
 Library    RequestsLibrary
-Library    Collections
 Resource    global_variable.resource
 
 *** Keywords ***
