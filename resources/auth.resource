@@ -51,9 +51,12 @@ Validate All Users Response
     Should Be True    ${users}    !=[]
 
     FOR    ${user}    IN    @{users}
-        Log    ${user["id"]}
+        Should Contain    ${user}    id
+        Should Contain    ${user}    username
+        Should Contain    ${user}    email
+        Should Contain    ${user}    role
         Should Be True    ${user["id"]} > 0
-        Should Be Equal    ${user["username"]}    ${user["username"]}
-        Should Be Equal    ${user["email"]}    ${user["email"]}
-        Should Be Equal    ${user["role"]["name"]}    ${user["role"]["name"]}
+        Should Not Be Empty    ${user["username"]}
+        Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format
+        Should Not Be Empty    ${user["role"]["name"]}
     END
