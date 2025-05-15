@@ -1,6 +1,7 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    custom_keywords.py
+Library    Collections
 
 *** Keywords ***
 Validate A User Response
@@ -33,3 +34,16 @@ Validate All Users Response
     #     Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format
     #     Should Not Be Empty    ${user["role"]["name"]}
     # END
+
+Post User Data
+    [Documentation]    Create a new user via POST request and validate the response
+    [Arguments]    ${first_name}    ${last_name}    ${email}    ${username}    ${role_name}    ${password}=${None}
+    ${role}=    Create Dictionary    name=${role_name}
+    ${user_data}=    Create Dictionary
+    ...    first_name=${first_name}
+    ...    last_name=${last_name}
+    ...    email=${email}
+    ...    username=${username}
+    ...    role=${role}
+    Run Keyword If    '${password}' != '${None}'    Set To Dictionary    ${user_data}    password    ${password}
+    RETURN    ${user_data}

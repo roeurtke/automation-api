@@ -25,10 +25,18 @@ Validate Successful Login Response
     Should Be Equal    ${body["message"]}    Login successfully
     Set Suite Variable    ${ACCESS_TOKEN}    ${body["access"]}
 
-Get Data With Response Token
+Get Response Request
     [Documentation]    Use the stored access token to fetch user information
     [Arguments]    ${endpoint}
     Create Session    ${userSession}    ${apiBaseUrl}
     ${auth_headers}=    Create Dictionary    Authorization=Bearer ${ACCESS_TOKEN}
     ${response}=    GET On Session    ${userSession}     ${endpoint}    headers=${auth_headers}
+    RETURN    ${response}
+
+Send POST Request
+    [Documentation]    Send a POST request with the access token
+    [Arguments]    ${endpoint}    ${data}
+    Create Session    ${userSession}    ${apiBaseUrl}
+    ${auth_headers}=    Create Dictionary    Authorization=Bearer ${ACCESS_TOKEN}
+    ${response}=    POST On Session    ${userSession}     ${endpoint}    json=${data}    headers=${auth_headers}
     RETURN    ${response}
