@@ -1,6 +1,7 @@
 *** Settings ***
 Library    RequestsLibrary
 Resource    ../resources/auth.resource
+Resource    ../resources/user.resource
 
 *** Test Cases ***
 Post Login And Get Response
