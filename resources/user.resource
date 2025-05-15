@@ -38,12 +38,27 @@ Validate All Users Response
 Post User Data
     [Documentation]    Create a new user via POST request and validate the response
     [Arguments]    ${first_name}    ${last_name}    ${email}    ${username}    ${role_name}    ${password}=${None}
-    ${role}=    Create Dictionary    name=${role_name}
+    ${role_ids}=    Create Dictionary
+    ...    Admin=1
+    ...    Normal=2
+    ...    Test=3
+    ${role_id}=    Get From Dictionary    ${role_ids}    ${role_name}    default=${None}
+    Run Keyword If    '${role_id}' == '${None}'    Fail    Invalid role_name: ${role_name}
     ${user_data}=    Create Dictionary
     ...    first_name=${first_name}
     ...    last_name=${last_name}
     ...    email=${email}
     ...    username=${username}
-    ...    role=${role}
+    ...    role=${role_id}
     Run Keyword If    '${password}' != '${None}'    Set To Dictionary    ${user_data}    password    ${password}
     RETURN    ${user_data}
+
+Validate Response Of User Created
+    [Documentation]    Validate the response of the user created
+    [Arguments]    ${response}
+    Should Be Equal As Numbers    ${response.status_code}    201
+    ${user}=    Set Variable    ${response.json()}
+    Should Be True    ${user["id"]} > 0   
+    Should Be Equal    ${user["username"]}    Normal
+    Should Be Equal    ${user["username"]}    test029
+    Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format

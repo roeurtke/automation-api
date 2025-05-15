@@ -12,21 +12,18 @@ Post Login And Get Response
 
 Get A User With Validation
     [Tags]    002
-    [Documentation]    Login and verify fetching a specific user
-    Login With Credentials    /api/login/    admin    111111@A
+    [Documentation]    Verify fetching a specific user
     ${user_response}=    Get Response Request   /api/users/1/
     Validate A User Response   ${user_response}
 
 Get All Users With Validation
     [Tags]    003
-    [Documentation]    Login and verify fetching all users
-    Login With Credentials    /api/login/    admin    111111@A
+    [Documentation]    Verify fetching all users
     ${user_response}=    Get Response Request   /api/users/ 
     Validate All Users Response    ${user_response}    1    100
 
 Create A User
     [Tags]    004
-    [Documentation]    Login and create a new user
-    Login With Credentials    /api/login/    admin    111111@A
-    ${post_data}=    Post User Data    test029    User    test029@gmail.com    test029    Normal    111111@A
+    [Documentation]    Create a new user
+    ${post_data}=    Post User Data    test031    User    test031@gmail.com    test031    Normal    111111@A
     Send POST Request   /api/users/    ${post_data}
