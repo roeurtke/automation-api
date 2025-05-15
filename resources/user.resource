@@ -38,18 +38,18 @@ Validate All Users Response
 Post User Data
     [Documentation]    Create a new user via POST request and validate the response
     [Arguments]    ${first_name}    ${last_name}    ${email}    ${username}    ${role_name}    ${password}=${None}
-    ${role_ids}=    Create Dictionary
+    ${roles}=    Create Dictionary
     ...    Admin=1
     ...    Normal=2
     ...    Test=3
-    ${role_id}=    Get From Dictionary    ${role_ids}    ${role_name}    default=${None}
-    Run Keyword If    '${role_id}' == '${None}'    Fail    Invalid role_name: ${role_name}
+    ${role}=    Get From Dictionary    ${roles}    ${role_name}    default=${None}
+    Run Keyword If    '${role}' == '${None}'    Fail    Invalid role_name: ${role_name}
     ${user_data}=    Create Dictionary
     ...    first_name=${first_name}
     ...    last_name=${last_name}
     ...    email=${email}
     ...    username=${username}
-    ...    role=${role_id}
+    ...    role=${role}
     Run Keyword If    '${password}' != '${None}'    Set To Dictionary    ${user_data}    password    ${password}
     RETURN    ${user_data}
 
