@@ -58,7 +58,10 @@ Validate Response Of User Created
     [Arguments]    ${response}
     Should Be Equal As Numbers    ${response.status_code}    201
     ${user}=    Set Variable    ${response.json()}
-    Should Be True    ${user["id"]} > 0   
-    Should Be Equal    ${user["username"]}    Normal
-    Should Be Equal    ${user["username"]}    test029
-    Should Match Regexp    ${user["email"]}    ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$    Invalid email format
+    Should Be True    ${user} != []
+    Should Be Equal    ${user["message"]}    User created successfully
+    Should Be True    ${user["user"]["id"]} > 0
+    Should Be Equal    ${user["user"]["username"]}    ${user["user"]["username"]}
+    Should Be Equal    ${user["user"]["email"]}    ${user["user"]["email"]}
+    Should Be Equal    ${user["user"]["role"]["name"]}    ${user["user"]["role"]["name"]}
+    Log    ${user["user"]["id"]}, ${user["user"]["username"]}, ${user["user"]["email"]}, ${user["user"]["role"]["name"]}

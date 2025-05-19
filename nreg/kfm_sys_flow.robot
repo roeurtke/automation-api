@@ -25,5 +25,6 @@ Get All Users With Validation
 Create A User
     [Tags]    004
     [Documentation]    Create a new user
-    ${post_data}=    Post User Data    test031    User    test031@gmail.com    test031    Normal    111111@A
-    Send POST Request   /api/users/    ${post_data}
+    ${post_data}=    Post User Data    test048    User    test048@gmail.com    test048    Normal    111111@A
+    ${response}=    Send POST Request   /api/users/    ${post_data}
+    Validate Response Of User Created    ${response}
